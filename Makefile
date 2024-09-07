@@ -11,3 +11,9 @@ circuit:
 
 rollback:
 	kubectl delete -f circuitbreaker.yaml
+
+build-client:
+	cd demo-client && docker build -t demo-client:istio .
+
+build-server:
+	cd demo-server && docker build -t demo-server:istio .
