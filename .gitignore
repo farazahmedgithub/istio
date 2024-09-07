@@ -3,3 +3,4 @@ istio.iml
 istio-1.23.0
 ### Mac OS ###
 .DS_Store
+demo-client/target
