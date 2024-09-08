@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myserver
+  namespace: istio-demo
+  labels:
+    app: myserver
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: myserver
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myserver
+  namespace: istio-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myserver
+  template:
+    metadata:
+      labels:
+        app: myserver
+    spec:
+      containers:
+        - name: demo-server
+          image: demo-server:istio
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: client1
+  namespace: istio-demo
+  labels:
+    app: client1
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: client1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client1
+  namespace: istio-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client1
+  template:
+    metadata:
+      labels:
+        app: client1
+    spec:
+      containers:
+        - name: demo-client
+          image: demo-client:istio
+          imagePullPolicy: Never
+          env:
+            - name: EXTERNAL_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: client1
+                  key: EXTERNAL_ENDPOINT
+          ports:
+            - containerPort: 8080
+              name: http
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: client1
+  namespace: istio-demo
+  labels:
+    app: client1
+data:
+  EXTERNAL_ENDPOINT: http://myserver:8080

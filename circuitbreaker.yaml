@@ -3,13 +3,11 @@ kind: DestinationRule
 metadata:
   name: global-traffic-policy
   namespace: istio-demo
-  labels:
-    app: client1
 spec:
   host: '*'
   trafficPolicy:
     outlierDetection:
       consecutiveGatewayErrors: 3
-      interval: 10s
+      interval: 100s
       baseEjectionTime: 3m
       maxEjectionPercent: 100
