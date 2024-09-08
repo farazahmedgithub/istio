@@ -27,7 +27,7 @@ public class DemoServerApplication {
 
     @GetMapping("status/{statusCode}")
     public ResponseEntity<?> status(@PathVariable Integer statusCode) {
-        log("error api called with parameter status code: " + statusCode);
+        log("status api called with parameter status code: " + statusCode);
 
         if (statusCode <= 399 || statusCode > 999) {
             return ResponseEntity
