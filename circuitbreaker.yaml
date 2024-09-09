@@ -5,6 +5,9 @@ metadata:
   namespace: istio-demo
 spec:
   host: '*'
+  workloadSelector:
+    matchLabels:
+      circuit: global
   trafficPolicy:
     outlierDetection:
       consecutiveGatewayErrors: 3

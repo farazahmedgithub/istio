@@ -64,6 +64,7 @@ spec:
     metadata:
       labels:
         app: client1
+        circuit: global
     spec:
       containers:
         - name: demo-client
